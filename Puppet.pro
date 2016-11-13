@@ -9,4 +9,10 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    commands.cpp \
+    signoff.cpp
+
+HEADERS += \
+    commands.h \
+    signoff.h
