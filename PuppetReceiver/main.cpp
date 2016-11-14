@@ -1,5 +1,5 @@
 #include <QCoreApplication>
-#include "signoff.h"
+#include "Commands_cpp/signoff.cpp"
 #include <QDebug>
 
 int main(int argc, char *argv[])
