@@ -11,8 +11,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     Commands_cpp/commands.cpp \
-    Commands_cpp/signoff.cpp
+    Commands_cpp/signoff.cpp \
+    Commands_cpp/browsersearch.cpp \
+    Commands_cpp/pcstatus.cpp
 
 HEADERS += \
     Commands_h/commands.h \
-    Commands_h/signoff.h
+    Commands_h/signoff.h \
+    Commands_h/browsersearch.h \
+    Commands_h/pcstatus.h
