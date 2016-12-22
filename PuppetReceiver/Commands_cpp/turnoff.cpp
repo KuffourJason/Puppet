@@ -1,17 +1,14 @@
-#include "Commands_h/signoff.h"
-#include <QDebug>
-#include <QProcess>
-#include <QDir>
+#include "Commands_h/turnoff.h"
 
-SignOff::SignOff(int id)
+TurnOff::TurnOff(int id)
 {
     this->process = new QProcess();
     this->commandID = id;
     this->connectionSetup();
 }
 
-bool SignOff::start( QStringList *args = NULL ){
-
+bool TurnOff::start(QStringList *args = NULL)
+{
     bool ret = false;
 
     if(args != NULL)
@@ -20,7 +17,7 @@ bool SignOff::start( QStringList *args = NULL ){
     }
 
     if( this->process != NULL){
-        this->process->start("shutdown -l");
+        this->process->start("shutdown /s");
         ret = true;
     }
     return ret;

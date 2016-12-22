@@ -7,10 +7,15 @@ class PCStatus: public Commands
 {
 
 public:
-      PCStatus();
-      bool start();
-      bool ended();
-      QString status();
+      PCStatus(int id);
+      bool start(QStringList *args);
+
+protected slots:
+      void outputGo();
+
+private:
+      QStringList out;
+      int index = 0;
 };
 
 #endif // PCSTATUS_H

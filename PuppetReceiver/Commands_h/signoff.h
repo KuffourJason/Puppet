@@ -8,10 +8,8 @@
 class SignOff: public Commands
 {
 public:
-    SignOff();
-    bool start(QList<QString> *args);
-    QString status();
-    bool ended();
+    SignOff(int id);
+    bool start(QStringList *args);
 };
 
 #endif // SIGNOFF_H

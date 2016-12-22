@@ -7,9 +7,24 @@ void Commands::connectionSetup()
     connect( this->process, &QProcess::errorOccurred, this, &Commands::processError        );
 }
 
+bool Commands::ended()
+{
+    return this->procEnded;
+}
+
+QString Commands::status()
+{
+    return this->statusInfo;
+}
+
+void Commands::endProcess()
+{
+    this->process->kill();
+}
+
 void Commands::processStarted()
 {
-    this->statusInfo = "Command execution has begun";
+    this->statusInfo = "Command " + QString::number(this->commandID) + " execution has begun";
 }
 
 void Commands::processStateChanged(QProcess::ProcessState newState)
@@ -23,12 +38,14 @@ void Commands::processStateChanged(QProcess::ProcessState newState)
                 this->statusInfo = SUCCESS;
             }
             else if(QProcess::CrashExit == this->process->exitStatus()){
-                 this->statusInfo = CRASHED;
+                 //this->statusInfo = CRASHED;
             }
 
+            emit this->processConditionChanged(this->commandID, this->statusInfo);
         }
         else if(newState == QProcess::Running){
             this->procEnded = true;
+
         }
 }
 
@@ -53,3 +70,4 @@ void Commands::processError(QProcess::ProcessError error)
         this->statusInfo = UNKNOWNERROR;
     }
 }
+

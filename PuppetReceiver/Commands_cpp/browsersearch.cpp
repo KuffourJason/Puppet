@@ -1,29 +1,52 @@
 #include "Commands_h/browsersearch.h"
+#include <QStringList>
 
-BrowserSearch::BrowserSearch(){
+BrowserSearch::BrowserSearch(int id){
 
-    BrowserSearch::process = new QProcess();
-
+    this->process = new QProcess();
+    this->commandID = id;
+    this->connectionSetup();
 }
 
-bool BrowserSearch::start(QList<QString> args) {
+bool BrowserSearch::start(QStringList *args) {
 
-    //"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+    //args(0-?) - links to be opened
 
-    if( BrowserSearch::process != NULL){
+    bool procStarted = false;
 
-        BrowserSearch::process->start();
+    if( args->size() < 1){
+        this->statusInfo = "Please include the link to be opened";
+    }
+    else if( this->process != NULL){
+
+        QString program = "";
+        QStringList links = *args;
+
+        if( QDir().exists(ROOT + PROGRAM_32 + CHROME) ){
+            program = ROOT + PROGRAM_32 + CHROME;
+        }
+        else if( QDir().exists(ROOT + PROGRAM_64 + CHROME) ){
+            program = ROOT + PROGRAM_64 + CHROME;
+        }
+        else if( QDir().exists(ROOT + PROGRAM_32 + FIREFOX) ){
+            program = ROOT + PROGRAM_32 + FIREFOX;
+        }
+        else if( QDir().exists(ROOT + PROGRAM_64 + FIREFOX) ){
+            program = ROOT + PROGRAM_64 + FIREFOX;
+        }
+        else if( QDir().exists(ROOT + PROGRAM_64 + EDGE) ){
+            program = ROOT + PROGRAM_64 + EDGE;
+        }
+        else if( QDir().exists(ROOT + PROGRAM_64 + EDGE) ){
+            program = ROOT + PROGRAM_64 + EDGE;
+        }
+
+        if( !program.isEmpty() ){
+            qDebug() << program;
+            this->process->start(program, QStringList() << links);
+            procStarted = true;
+        }
     }
 
-    return true;
-}
-
-bool BrowserSearch::ended(){
-
-    return true;
-}
-
-QString BrowserSearch::status(){
-
-    return "";
+    return procStarted;
 }
