@@ -1,15 +1,23 @@
 #include "Commands_h/signoff.h"
 #include <QDebug>
 #include <QProcess>
-#include <QDir>
 
+/**
+ * @brief SignOff::SignOff
+ * @param id
+ */
 SignOff::SignOff(int id)
 {
-    this->process = new QProcess();
-    this->commandID = id;
-    this->connectionSetup();
+    this->process = new QProcess();     //instantiates the inherited QProcess
+    this->commandID = id;               //sets the commandID of this instance to id
+    this->connectionSetup();            //connects this instance's slots to QProcess' signals
 }
 
+/**
+ * @brief SignOff::start
+ * @param args
+ * @return
+ */
 bool SignOff::start( QStringList *args = NULL ){
 
     bool ret = false;

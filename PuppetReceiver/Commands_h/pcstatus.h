@@ -3,12 +3,15 @@
 
 #include "commands.h"
 
+/**
+ * @brief The PCStatus class
+ */
 class PCStatus: public Commands
 {
 
 public:
       PCStatus(int id);
-      bool start(QStringList *args);
+      bool start(QStringList *args); //The method to start the execution of the PC status command
 
 protected slots:
       void outputGo();

@@ -1,12 +1,21 @@
 #include "Commands_h/reboot.h"
 
+/**
+ * @brief Reboot::Reboot
+ * @param id
+ */
 Reboot::Reboot(int id)
 {
-    this->commandID = id;
-    this->process = new QProcess();
-    this->connectionSetup();
+    this->process = new QProcess();     //instantiates the inherited QProcess
+    this->commandID = id;               //sets the commandID of this instance to id
+    this->connectionSetup();            //connects this instance's slots to QProcess' signals
 }
 
+/**
+ * @brief Reboot::start
+ * @param args
+ * @return
+ */
 bool Reboot::start(QStringList *args)
 {
     bool ret = false;

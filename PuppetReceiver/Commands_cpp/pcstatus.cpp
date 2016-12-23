@@ -1,14 +1,25 @@
 #include "Commands_h/pcstatus.h"
 
+/**
+ * @brief PCStatus::PCStatus
+ * @param id
+ */
 PCStatus::PCStatus(int id)
 {
-    this->process = new QProcess();
-    this->commandID = id;
-    this->connectionSetup();
+    this->process = new QProcess();     //instantiates the inherited QProcess
+    this->commandID = id;               //sets the commandID of this instance to id
+    this->connectionSetup();            //connects this instance's slots to QProcess' signals
 
+    //this connects the signal, which is emitted when the all the output of a process is available,
+    //to the outputGo slot defined in PCStatus
     this->connect( this->process, &QProcess::readChannelFinished, this, &PCStatus::outputGo );
 }
 
+/**
+ * @brief PCStatus::start
+ * @param args
+ * @return
+ */
 bool PCStatus::start(QStringList *args = NULL)
 {
     bool procStarted = false;
@@ -17,7 +28,6 @@ bool PCStatus::start(QStringList *args = NULL)
 
         QString program = "tasklist";
         this->process->start(program);
-
         procStarted = true;
     }
     else{
@@ -27,6 +37,9 @@ bool PCStatus::start(QStringList *args = NULL)
     return procStarted;
 }
 
+/**
+ * @brief PCStatus::outputGo
+ */
 void PCStatus::outputGo()
 {
     QString conOutput;

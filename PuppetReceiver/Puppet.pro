@@ -17,7 +17,7 @@ SOURCES += main.cpp \
     test.cpp \
     Commands_cpp/turnoff.cpp \
     Commands_cpp/reboot.cpp \
-    Commands_cpp/browserdownload.cpp
+    Commands_cpp/openprogram.cpp
 
 HEADERS += \
     Commands_h/commands.h \
@@ -27,5 +27,5 @@ HEADERS += \
     test.h \
     Commands_h/turnoff.h \
     Commands_h/reboot.h \
-    Commands_h/browserdownload.h \
     macros.h \
+    Commands_h/openprogram.h

@@ -1,13 +1,21 @@
 #include "Commands_h/browsersearch.h"
 #include <QStringList>
 
+/**
+ * @brief BrowserSearch::BrowserSearch
+ * @param id
+ */
 BrowserSearch::BrowserSearch(int id){
-
-    this->process = new QProcess();
-    this->commandID = id;
-    this->connectionSetup();
+    this->process = new QProcess();     //instantiates the inherited QProcess
+    this->commandID = id;               //sets the commandID of this instance to id
+    this->connectionSetup();            //connects this instance's slots to QProcess' signals
 }
 
+/**
+ * @brief BrowserSearch::start -
+ * @param args
+ * @return
+ */
 bool BrowserSearch::start(QStringList *args) {
 
     //args(0-?) - links to be opened
