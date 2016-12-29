@@ -21,14 +21,15 @@ SignOff::SignOff(int id)
 bool SignOff::start( QStringList *args = NULL ){
 
     bool ret = false;
+    QString wait = "";
 
     if(args != NULL)
     {
-        qDebug() << "Extra arguments ignored";
+        wait = args->isEmpty() ? "30" : args->at(0);
     }
 
     if( this->process != NULL){
-        this->process->start("shutdown -l");
+        this->process->start(CMD, QStringList() << SCRIPT << "shutdown" << "/l" << "/t" << wait);
         ret = true;
     }
     return ret;

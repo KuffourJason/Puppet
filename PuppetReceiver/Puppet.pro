@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     test.cpp \
     Commands_cpp/turnoff.cpp \
     Commands_cpp/reboot.cpp \
-    Commands_cpp/openprogram.cpp
+    Commands_cpp/openprogram.cpp \
+    Commands_cpp/movefof.cpp \
+    Commands_cpp/searchfolder.cpp
 
 HEADERS += \
     Commands_h/commands.h \
@@ -28,4 +30,6 @@ HEADERS += \
     Commands_h/turnoff.h \
     Commands_h/reboot.h \
     macros.h \
-    Commands_h/openprogram.h
+    Commands_h/openprogram.h \
+    Commands_h/movefof.h \
+    Commands_h/searchfolder.h

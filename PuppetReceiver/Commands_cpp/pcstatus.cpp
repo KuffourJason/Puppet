@@ -26,14 +26,12 @@ bool PCStatus::start(QStringList *args = NULL)
 
     if( this->process != NULL){
 
-        QString program = "tasklist";
-        this->process->start(program);
+        this->process->start(CMD, QStringList() << SCRIPT << "tasklist" << "-v" << "/FO" << "LIST");
         procStarted = true;
     }
     else{
         procStarted = false;
     }
-
     return procStarted;
 }
 
@@ -45,22 +43,20 @@ void PCStatus::outputGo()
     QString conOutput;
     conOutput = this->process->readAllStandardOutput();
 
-    QStringList temp1, temp2;
+
+    QStringList temp1;
 
     temp1 << conOutput.split("\n");
-    temp1.pop_front();
-    temp1.pop_front();
-    temp1.pop_front();
-    temp1.pop_front();
 
     for(QString c: temp1){
-        temp2 = c.split(" ", QString::SkipEmptyParts);
 
-        if(temp2.size() >= 5){
-            QString i = temp2.at(0) + " " + temp2.at(4) + " " + temp2.at(5);
-            out << i.trimmed();
+        if( c.contains("Session") || c.contains("PID") || c.contains("Status") ){
+
+        }
+        else{
+            this->out << c.trimmed();
         }
     }
 
-    qDebug() << out;
+    qDebug() << this->out;
 }
