@@ -1,9 +1,5 @@
 #include "Commands_h/pcstatus.h"
 
-/**
- * @brief PCStatus::PCStatus
- * @param id
- */
 PCStatus::PCStatus(int id)
 {
     this->process = new QProcess();     //instantiates the inherited QProcess
@@ -12,51 +8,55 @@ PCStatus::PCStatus(int id)
 
     //this connects the signal, which is emitted when the all the output of a process is available,
     //to the outputGo slot defined in PCStatus
-    this->connect( this->process, &QProcess::readChannelFinished, this, &PCStatus::outputGo );
+    this->connect( this->process, &QProcess::readChannelFinished, this, &PCStatus::taskInfo );
 }
 
-/**
- * @brief PCStatus::start
- * @param args
- * @return
- */
 bool PCStatus::start(QStringList *args = NULL)
 {
-    bool procStarted = false;
+    bool procStarted = false;  //return value indicates whether process was started
 
+    if(args != NULL){
+        this->statusInfo = "Extra arguments ignored";
+    }
+
+    //checks if process was created first
     if( this->process != NULL){
 
-        this->process->start(CMD, QStringList() << SCRIPT << "tasklist" << "-v" << "/FO" << "LIST");
-        procStarted = true;
+        //Builds the arguments to be supplied to the cmd program. tasklist is the cmd
+        //command used to get the task manager like information for the computer
+        QStringList arguments = QStringList() << SCRIPT << "tasklist" << "-v" << "/FO" << "LIST";
+
+        this->process->start(CMD, arguments); //executes the command in the process
+        procStarted = true;  //sets the return value to true
     }
     else{
-        procStarted = false;
+        //if process was not created
     }
     return procStarted;
 }
 
-/**
- * @brief PCStatus::outputGo
- */
-void PCStatus::outputGo()
+void PCStatus::taskInfo()
 {
-    QString conOutput;
-    conOutput = this->process->readAllStandardOutput();
+    QString consoleOutput = this->process->readAllStandardOutput(); //gets the task manager information from the process
 
+    //splits the string in consoleOutput into rows and stores it in a QStringList (arrayList)
+    QStringList temp = QStringList() << consoleOutput.split("\n");
 
-    QStringList temp1;
+    QStringList output = QStringList();
 
-    temp1 << conOutput.split("\n");
+    //Loops over the QStringList temp and removes unnecessary info for each task
+    for(QString row: temp){
 
-    for(QString c: temp1){
-
-        if( c.contains("Session") || c.contains("PID") || c.contains("Status") ){
+        //Removes rows that contain the session #, PID and status which is unnecessary
+        if( row.contains("Session") || row.contains("PID") || row.contains("Status") ){
 
         }
         else{
-            this->out << c.trimmed();
+            output << row.trimmed();//saves the necessary data into the QStringList out
         }
     }
 
-    qDebug() << this->out;
+    //notifies and gives the callee the task info is available
+    emit this->taskInfoReady( this->commandID, output );
+    qDebug() << output;
 }

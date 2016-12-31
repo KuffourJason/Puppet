@@ -1,12 +1,5 @@
 #include "Commands_h/movefof.h"
 
-/**
- * @brief MoveFOF::MoveFOF - The constructor for the MoveFOF class. It assigns the commandID
- *
- * @param id - An int value to be assigned to this instance of the command class. For
- * error handling or notifications through signals, this value should be unique throughout
- * the runtime
- */
 MoveFOF::MoveFOF(int id)
 {
     //this->process = new QProcess();     //instantiates the inherited QProcess
@@ -14,14 +7,6 @@ MoveFOF::MoveFOF(int id)
     //this->connectionSetup();            //connects this instance's slots to QProcess' signals
 }
 
-/**
- * @brief MoveFOF::start - This method moves a file from one location to another destination.
- *
- * @param args - QStringList containing the file to be moved, at index 0, and the new destination
- * the file is to be moved to, at index 1
- *
- * @return - a boolean indicating whether the command has/is being executed
- */
 bool MoveFOF::start(QStringList *args)
 {
     //args[0] - the file/folder to be moved
@@ -35,6 +20,7 @@ bool MoveFOF::start(QStringList *args)
         this->statusInfo = "Please include the file to move and its new destination";
     }
     else{
+        this->statusInfo = (args->count() > 2) ? "Extra arguments ignored" : "";
 
         QString filePath = args->at(0);   //gets the path of the file to be moved from the args
         QString destination = args->at(1); //get the path of the new file destination

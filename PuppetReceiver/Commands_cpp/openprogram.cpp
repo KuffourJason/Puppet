@@ -1,13 +1,5 @@
 #include "Commands_h/openprogram.h"
 
-/**
- * @brief OpenProgram::OpenProgram - The constructor for the OpenProgram class. It
- * connects the necessary signals and slots, setups up the QProcess and assigns the commandID
- *
- * @param id - An int value to be assigned to this instance of the command class. For
- * error handling or notifications through signals, this value should be unique throughout
- * the runtime
- */
 OpenProgram::OpenProgram(int id)
 {
     this->process = new QProcess();     //instantiates the inherited QProcess
@@ -15,14 +7,6 @@ OpenProgram::OpenProgram(int id)
     this->connectionSetup();            //connects this instance's slots to QProcess' signals
 }
 
-/**
- * @brief OpenProgram::start - This method opens the specified program/file in another process
- *
- * @param args - QStringList containing the directory path of the program/file to open, at index 1,
- * and an indicator whether it is a program (use P) or file ( use F) at index 0
- *
- * @return - a boolean indicating whether the command has/is being executed
- */
 bool OpenProgram::start(QStringList *args)
 {
     //arg[0] indicates whether to open a file or program, possible values F or P
@@ -37,8 +21,10 @@ bool OpenProgram::start(QStringList *args)
     }
     else if(this->process != NULL){  //checks if process was created first
 
+        this->statusInfo = (args->count() > 2) ? "Extra arguments ignored" : "";
+
         QStringList params = *args;  //gets the user supplied arguments
-        QStringList arguments = "";  //contains the arguments to be supplied to the cmd program.
+        QStringList arguments;  //contains the arguments to be supplied to the cmd program.
 
         //checks if the thing to be opened is a file
         if( params.at(0) == "F" ){

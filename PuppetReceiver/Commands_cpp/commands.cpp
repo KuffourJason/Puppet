@@ -36,6 +36,7 @@ QString Commands::status()
 void Commands::endProcess()
 {
     this->process->kill();
+    delete this->process;
 }
 
 /**
@@ -50,6 +51,7 @@ void Commands::processStarted()
  * @brief Commands::processStateChanged - This slot is executed whenever the process' state has changed.
  * It is executed when the process is starting, not running or running. If the process is not running then
  * it emits the signal processConditionChanged
+ *
  * @param newState - the state to which the process is transitioning to
  */
 void Commands::processStateChanged(QProcess::ProcessState newState)

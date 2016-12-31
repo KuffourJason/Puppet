@@ -2,10 +2,6 @@
 #include <QDebug>
 #include <QProcess>
 
-/**
- * @brief SignOff::SignOff
- * @param id
- */
 SignOff::SignOff(int id)
 {
     this->process = new QProcess();     //instantiates the inherited QProcess
@@ -13,24 +9,27 @@ SignOff::SignOff(int id)
     this->connectionSetup();            //connects this instance's slots to QProcess' signals
 }
 
-/**
- * @brief SignOff::start
- * @param args
- * @return
- */
 bool SignOff::start( QStringList *args = NULL ){
 
-    bool ret = false;
-    QString wait = "";
+    bool procStarted = false; //return value indicates whether process was started
 
+    //if a parameter was given
     if(args != NULL)
     {
-        wait = args->isEmpty() ? "30" : args->at(0);
+        this->statusInfo = "Extra arguments ignored";
     }
 
     if( this->process != NULL){
-        this->process->start(CMD, QStringList() << SCRIPT << "shutdown" << "/l" << "/t" << wait);
-        ret = true;
+
+        //Builds the arguments to be supplied to the cmd program. The command for shutdown is as
+        //expected and the /l means signing out
+        QStringList arguments = QStringList() << SCRIPT << "SHUTDOWN.exe" << "/l";
+
+        qDebug() << arguments;
+
+        this->process->start(CMD, arguments);  //executes the command in the process
+        procStarted = true; //sets the return value to true
     }
-    return ret;
+
+    return procStarted;
 }

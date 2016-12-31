@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "Commands_cpp/signoff.cpp"
+#include "Commands_cpp/turnoff.cpp"
 #include <QDebug>
 #include "Commands_cpp/browsersearch.cpp"
 #include "Commands_cpp/reboot.cpp"
@@ -17,14 +18,13 @@ int main(int argc, char *argv[])
 
     BrowserSearch s(1);
     QStringList *f = new QStringList();
-    f->append("chrome");
     f->append("http://doc.qt.io/qt-5/qtwidgets-dialogs-findfiles-example.html");
-    f->append("http://doc.qt.io/qt-5/qtwidgets-dialogs-findfiles-example.html");
+    f->append("http://www.google.com");
 
     //PCStatus p(2);
 
-    //Reboot r(3);
-    //r.start(&(QStringList() << "120") );
+    //TurnOff r(3);
+    //r.start(&(QStringList() << "720") );
     qDebug() << s.start(f);
 
 //    MoveFOF test(20);
